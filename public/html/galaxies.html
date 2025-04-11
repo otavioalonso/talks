@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Viewer</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+canvas { display: block; }
+#info {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    font-family: monospace;
+    display: none; /* Initially hidden */
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    display: none; /* Initially hidden */
+}
+    </style>
+</head>
+<body>
+<div id="loading" class="noselect"></div>
+  <script type="importmap">
+      {
+          "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+          }
+      }
+  </script>
+  <script type="module">
+
+
+import * as THREE from 'three';
+
+const color_code = [
+        [1.0, 0.8, 0.5], // BGS
+        [1.0, 0.5, 0.5], // LRG
+        [0.5, 1.0, 0.5], // ELG
+        [0.8, 0.5, 1.0], // QSO
+      ]
+
+let scene, camera, renderer;
+let galaxyPoints;
+let loadingElement;
+let velocity, rotationVector;
+
+// Initialize the three.js scene
+function init() {
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 5000);
+
+  camera.position.z = 500;
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+  
+  loadingElement = document.getElementById('loading');
+
+  window.addEventListener("resize", onWindowResize, false);
+
+  loadGalaxyData();
+
+  velocity = new THREE.Vector3();
+  rotationVector = new THREE.Vector3();
+}
+
+function showLoading() {
+    loadingElement.style.display = 'block';
+}
+
+function hideLoading() {
+    loadingElement.style.display = 'none';
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Create a circular texture for galaxies
+function createCircleTexture() {
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+
+    // Create a radial gradient (white center fading to transparent)
+    const gradient = context.createRadialGradient(
+      size/2, size/2, 0,  // inner circle: center and radius 0
+      size/2, size/2, size/2 // outer circle: center and full radius
+    );
+
+    // Glowy galaxies
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0)');
+
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, size, size);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    return texture;
+}
+
+async function loadGalaxyData() {
+  try {
+    showLoading();
+    const response = await fetch("/data/galaxies.json");
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+
+    const galaxies = await response.json();
+
+    const numGalaxies = galaxies.length;
+    // Float32Array is efficient for many points
+    const positions = new Float32Array(numGalaxies * 3);
+    const colors = new Float32Array(numGalaxies * 3);
+
+    for (let i = 0; i < numGalaxies; i++) {
+      positions[i * 3]     = galaxies[i][0];
+      positions[i * 3 + 1] = galaxies[i][1];
+      positions[i * 3 + 2] = galaxies[i][2];
+
+      colors[i * 3]     = color_code[galaxies[i][3]][0];
+      colors[i * 3 + 1] = color_code[galaxies[i][3]][1];
+      colors[i * 3 + 2] = color_code[galaxies[i][3]][2];
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    // Simple material: galaxies are squares
+    // const material = new THREE.PointsMaterial({
+    //   size: 1,
+    //   // color: 0xffffff,
+    //   alphaTest: 0., // Ensures pixels with less alpha are discarded.
+    //   vertexColors: true  // Enable vertex colors
+    // });
+
+    // Circles with gradiets
+    const circleTexture = createCircleTexture();
+
+    const material = new THREE.PointsMaterial({
+        size: 2,
+        map: circleTexture,
+        transparent: true,
+        alphaTest: 0., // Ensures pixels with less alpha are discarded.
+        blending: THREE.AdditiveBlending,  // For a glowing or additive effect.
+        depthTest: false, // Prevents points from occluding each other.
+        vertexColors: false  // Enable vertex colors
+  });
+
+    galaxyPoints = new THREE.Points(geometry, material);
+    galaxyPoints.rotation.x = 3;
+    galaxyPoints.rotation.y = 3;
+    galaxyPoints.rotation.z = 0;
+
+    galaxyPoints.position.x = -2200,
+    galaxyPoints.position.y = -300,
+    galaxyPoints.position.z = 300;
+
+    scene.add(galaxyPoints);
+    hideLoading();
+
+  } catch (error) {
+    console.error("Error loading galaxy data:", error);
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Rotate the entire system slowly for a 3D effect
+  if (galaxyPoints) {
+    galaxyPoints.rotation.x += 0.001;
+  }
+  moveCamera();
+
+  renderer.render(scene, camera);
+}
+function moveCamera() {
+    camera.position.add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(velocity.z));
+    camera.position.x += velocity.x;
+    camera.rotation.x += rotationVector.x;
+    camera.rotation.y += rotationVector.y;
+
+    // Reset velocity and rotation for next frame
+    velocity.set(0, 0, 0);
+    rotationVector.set(0, 0, 0);
+}
+
+init();
+
+// const canvas = document.getElementsByTagName('canvas')[0];
+// const stream = canvas.captureStream(30); // 30 FPS
+
+// const mediaRecorder = new MediaRecorder(stream);
+// const chunks = [];
+
+// mediaRecorder.ondataavailable = function(event) {
+//     if (event.data.size > 0) {
+//         chunks.push(event.data);
+//     }
+// };
+
+// mediaRecorder.onstop = function() {
+//     const blob = new Blob(chunks, { type: 'video/mp4' });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement('a');
+//     a.href = url;
+//     a.download = 'canvas-recording.mp4';
+//     a.click();
+//     URL.revokeObjectURL(url);
+// };
+
+// // Start recording
+// setTimeout(() => mediaRecorder.start(), 3000);
+
+// // Stop after a defined time interval, e.g., 5 seconds
+// setTimeout(() => mediaRecorder.stop(), 28000);
+
+animate();
+
+
+
+  </script>
+</body>
+</html>

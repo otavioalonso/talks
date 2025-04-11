@@ -1,0 +1,61 @@
+<html>
+  <head>
+	<style>body {margin: 0;}</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <script>
+
+let circles = []; // Array to hold circle data
+let expansionSpeed = 0.5; // Speed at which circles expand
+let maxRadius; // Maximum radius a circle can reach
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  maxRadius = 1.3*dist(0, 0, windowWidth / 2, windowHeight / 2);
+}
+
+function draw() {
+  background(255,255,221);
+
+  translate(width / 2, 0.5*height); // Center the origin
+
+  stroke(200);
+  noFill();
+
+  // Add a new circle at the center every few frames
+  if (frameCount % 50 === 1) {
+    circles.push(new ExpandingCircle());
+  }
+
+  // Update and display each circle
+  for (let i = circles.length - 1; i >= 0; i--) {
+    let circle = circles[i];
+    circle.update();
+    circle.display();
+
+    // Remove the circle if it exceeds the maximum radius
+    if (circle.radius > maxRadius) {
+      circles.splice(i, 1);
+    }
+  }
+}
+
+class ExpandingCircle {
+  constructor() {
+    this.radius = 0;
+  }
+
+  update() {
+    this.radius += expansionSpeed;
+  }
+
+  display() {
+    ellipse(0, 0, this.radius * 2);
+  }
+}
+
+
+</script>
+</head>
+<body>
+</body>
+</html>

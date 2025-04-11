@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Helvetica');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500&display=swap');
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/*-- scss:defaults --*/
+
+$link-color: #fff;
+$link-color-hover: #00b3ff;
+$body-bg: #222;
+
+$presentation-font-size-root: 30px;
+$presentation-h1-font-size: 2.6em;
+$big-text-font-size: 50pt;
+// $presentation-h2-font-size: 1.4em;
+
+$font-family-sans-serif: 'Helvetica';
+$presentation-heading-font: 'Roboto Condensed';
+
+/*-- scss:rules --*/
+
+.reveal {
+
+  font-weight: 300;
+
+  .middle {
+    text-align: center;
+
+    * {
+      margin: auto;
+      text-align: center;
+    }
+  }
+
+  h1, h2 {
+    font-family: 'Yanone Kaffeesatz';
+  }
+
+  h2 {
+    font-size: 42pt;
+  }
+
+  .katex { font-size: 28pt; }
+
+  .quarto-title-author-name {
+    font-size: calc($presentation-font-size-root * 1.5);
+  }
+
+  .quarto-title-affiliation {
+    font-size: $presentation-font-size-root !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    // font-family: $presentation-heading-font;
+  }
+
+  // h1 {
+  //   text-shadow: 0 0 2px #000, 0 0 4px #000,0 0 2px #000, 0 0 4px #000;
+  // }
+
+  iframe {
+    padding:0;
+    margin: 0;
+    border: 0;
+  }
+
+
+  .slide-menu-button {
+    display: none;
+  }
+
+  
+  .wow {
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 20px auto;
+  }
+
+  .metrics {
+    text-align: center;
+    span {
+      display: block;
+      font-size: 5rem;
+      line-height: 4rem;
+    }
+  }
+
+  .cell-output-display {
+    text-align: center;
+  }
+
+  .big-text {
+    
+    margin-bottom: 42pt;
+    text-align: justify;
+    text-align-last: justify;
+    text-transform: uppercase;
+
+    * {
+      font-family: 'Yanone Kaffeesatz';
+      
+      font-size: $big-text-font-size;
+      line-height: inherit;
+    }
+
+    .focus {
+      font-size:110pt;
+      vertical-align:middle;
+      font-weight:bold;
+    }
+
+  }
+
+  @for $i from 0 through 25 {
+    .grow-#{$i} , .grow-#{$i} *{
+      font-size: calc($big-text-font-size * calc(1 + 0.1*#{$i}));
+    }
+  }
+
+  .quarto-title-block {
+    background-color: #00000090;
+    text-shadow: 0 0 2px #000, 0 0 4px #000,0 0 2px #000, 0 0 4px #000;
+  }
+
+  svg.mermaid-js {
+    max-width: none !important;
+    font-weight: 400;
+  }
+
+  h1, h2 {
+    text-transform: uppercase;
+  }
+  .progress {
+    color: white;
+  }
+
+  a {
+    font-weight: bold;
+  }
+
+  .shadow {
+    text-shadow: 0 0 2px #000, 0 0 4px #000;
+  }
+
+  .footer {
+    text-shadow: 0 0 2px #000;
+    font-size: 1.2em;
+    text-align: center;
+    padding-right: 20px;
+  }
+
+  .caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+  }
+  
+  .caption p {
+    margin: 0;
+  }
+  
+  .mermaid-js {
+    .task {
+      stroke-width: 1 !important;
+      stroke: #000 !important;
+      fill: #fff !important;
+    }
+  
+    .taskText {
+      fill: #333 !important;
+      font-weight: bold;
+      font-size: 24pt;
+      transform: translateY(8px);
+      text-anchor: middle;
+    }
+  
+    .tick text {
+      font-size: 18pt;
+      fill: #333;
+    }
+  
+    .tick:nth-child(even) text {
+      display: none;
+    }
+  
+    .section {
+      fill: #000 !important;
+      stroke-width: 0.0 !important;
+      opacity: 0.8 !important;
+      display: none;
+    }
+  
+    .sectionTitle {
+      display: none;
+    }
+  }
+
+.has-light-background.footer  {
+  color: #222;
+  text-shadow: none;
+}
+
+.has-light-background {
+
+  
+  .progress {
+    background-color: #222;
+    border-top: solid #222 1px;
+  }
+  
+  .slide-menu-button .fa-bars {
+    filter: invert(0.70);
+  }
+}
+
+.footer {
+  display: block;
+  position: fixed;
+  bottom: 18px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 18px;
+  z-index: 2;
+}
+
+.slides .footer {
+  display: none;
+}
+
+}
+
+
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+
+@keyframes scaleUpAnimation {
+  from {
+      transform: scale(1);
+      opacity: 1;
+  }
+  to {
+      transform: scale(5);
+      opacity: 0.3;
+  }
+}

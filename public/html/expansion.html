@@ -1,0 +1,62 @@
+<html>
+  <head>
+	<style>body {margin: 0;}</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <script>
+
+let numStars = 100;
+let stars = [];
+let expansionSpeed = 0.5;
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+  for (let i = 0; i < numStars; i++) {
+    stars.push(new Star(random(width), random(height)));
+  }
+}
+
+function draw() {
+  background(44, 25); // Transparent background to create trailing effect
+
+  translate(width / 2, height / 2);
+
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].update();
+    stars[i].display();
+  }
+}
+
+class Star {
+  constructor(xpos, ypos) {
+    this.x = xpos - width / 2;
+    this.y = ypos - height / 2;
+    this.speed = random(0.1, 1.5); // Randomize speed for variety
+  }
+
+  update() {
+    let angle = atan2(this.y, this.x);
+    this.x += this.speed * cos(angle) * expansionSpeed;
+    this.y += this.speed * sin(angle) * expansionSpeed;
+
+    // Wrap around if out of bounds to keep it continuous
+    if (dist(0, 0, this.x, this.y) > width / 2) {
+      this.x = (random(2) - 1) * width / 2;
+      this.y = (random(2) - 1) * height / 2;
+    }
+  }
+
+  display() {
+    let px = this.x - this.speed * cos(atan2(this.y, this.x)) * expansionSpeed;
+    let py = this.y - this.speed * sin(atan2(this.y, this.x)) * expansionSpeed;
+
+    stroke(255);
+    line(px, py, this.x, this.y);
+  }
+}
+
+
+</script>
+</head>
+<body>
+</body>
+</html>
