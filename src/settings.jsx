@@ -46,7 +46,7 @@ export default {
   progress: true,
 
   // Display the page number of the current slide
-  slideNumber: true,
+  slideNumber: false,
 
   // 'all', 'print', or 'speaker'
   showSlideNumber: 'all',

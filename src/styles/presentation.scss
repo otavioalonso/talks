@@ -249,12 +249,12 @@ div.columns{display: flex; gap: min(4vw, 1.5em);}
 div.column{flex: auto; overflow-x: auto;}
 
 @keyframes scaleUpAnimation {
-  from {
+  0%, 100% {
       transform: scale(1);
       opacity: 1;
   }
-  to {
-      transform: scale(5);
-      opacity: 0.3;
+  50% {
+      transform: scale(2);
+      opacity: 1;
   }
 }

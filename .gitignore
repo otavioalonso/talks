@@ -6,3 +6,5 @@
 public/data/
 public/image/
 public/video/
+dist/
+.firebase/

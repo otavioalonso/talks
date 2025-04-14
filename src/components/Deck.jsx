@@ -9,7 +9,7 @@ import RevealMath from 'reveal.js/plugin/math/plugin.js';
 
 import 'reveal.js/dist/reveal.css';
 import 'reveal.js/dist/theme/black.css';
-import '../Presentation.scss'
+import '../styles/presentation.scss'
 
 export default function Deck({ children }) {
   const deckDivRef = useRef();

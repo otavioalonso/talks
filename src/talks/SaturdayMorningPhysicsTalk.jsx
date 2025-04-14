@@ -10,6 +10,21 @@ export default () => (
             <p><i>Surveying Dark Energy with 5000 Robots</i></p>
             <br/>
             <p>Otávio Alves</p>
+            <img src="image/desi-logo.png" alt="" height='150px' style={{
+                position: 'absolute',
+                top: 400,
+                left:450,
+            }}/>
+            <img src="image/doe-logo.png" alt="" height='150px' style={{
+                position: 'absolute',
+                top: 400,
+                left:670,
+            }}/>
+            <img src="image/um-logo.png" alt="" height='150px' style={{
+                position: 'absolute',
+                top: 400,
+                left:200,
+            }}/>
         </Slide>
         <Slide className='center' iFrameSrc='html/expansion.html'>
             <p className="fragment">The Universe is expanding</p>
@@ -45,14 +60,15 @@ export default () => (
         <Slide color='#ffd'>
             <p>The metric that describes our Universe</p>
             <h2>Flat Friedmann–Lemaître–Robertson–Walker</h2>
-            $${'\\text{interval}^2 =  a^2(t)\\left[\\Delta x^2 + \\Delta y^2 + \\Delta z^2\\right] - c\\Delta t^2'}$$
+            $${'\\text{interval}^2 =  a^2(t)\\left[\\Delta x^2 + \\Delta y^2 + \\Delta z^2\\right] - c^2\\Delta t^2'}$$
             
             <div className="fragment fade-out" style={{overflow: 'visible'}}>
                 <img src="image/points.svg" height='250px' alt="" style={{
-                    animation: 'scaleUpAnimation 120s ease-in forwards'
+                    animation: 'scaleUpAnimation 20s ease-in-out infinite',
+                    marginTop: 80,
                 }}/>
             </div>
-            <div className="fragment" style={{position: 'relative',top: -330}}>
+            <div className="fragment" style={{position: 'relative',top: -380}}>
                 <img src="image/scale-factor.svg" height={400} alt=""/>
             </div>
         </Slide>
@@ -127,10 +143,12 @@ export default () => (
                 <li>Tohono O'Odham Nation</li>
                 <li>Kitt Peak, Arizona</li>
                 <li>Mayall Telescope</li>
-
+                <li>50M spectra</li>
             </ul>
             </div>
         </Slide>
+        <Slide imageSrc='image/galaxies2.png' className=''/>
+        <Slide imageSrc='image/galaxies2-targets.png' className=''/>
         <Slide videoSrc='video/instrument.mp4' footer='Image: LBNL/KPNO/NOIRLab/NSF/AURA' loop={false}/>
         <Slide videoSrc='video/positioners.mp4' footer='Image: Claire Poppett/DESI' className='center'>
             <div className='fragment' style={{backgroundColor: 'white', padding: '50px'}}>
@@ -162,24 +180,52 @@ export default () => (
         <Slide iFrameSrc='html/galaxies.html' className='center'>
         </Slide>
         <Slide>
-            <p>What did DESI find?</p>
-            <h2 className='fragment'>Dynamical Dark Energy</h2>
+            <p><b>What did DESI find?</b></p>
+            <div className='fragment'>
+                <p style={{color:'#9f9'}}>hints of</p>
+                <h2 style={{color:'#9f9',marginTop: '-30px'}}>Dynamical Dark Energy</h2>
+            </div>
             <div className="fragment">
                 <p>Dark Energy was thought to have <b style={{color:'#fd7'}}>constant density</b></p>
-                <p>DESI data suggests Dark Energy becomes weaker over time.</p>
+                <div style={{padding: '0 200px'}}>
+                    <img src="image/cube.svg" height='150px' alt="" style={{
+                        float: 'left',
+                        marginTop: '90px'
+
+                    }}/>
+                    <img src="image/cube.svg" height='300px' alt="" style={{
+                        float: 'right',
+                    }}/>
+                </div>
             </div>
             <p></p>
         </Slide>
-        {/* <Slide iFrameSrc='https://fly.otavioalves.com'/> */}
-        <Slide color='#ffd'>
-            <p>What did DESI find?</p>
-            <img src="image/scale-factor-w0wa.svg" height={300} alt=""/>
+        <Slide>
+            $${'\\rho = \\frac{\\rho_0}{a^{3(1+w)}}'}$$
+            <div className="fragment">
+                <p>DESI data suggests w is <b style={{color:'#fd7'}}>changing</b></p>
+                <img src="image/w0wa.svg" height='400px' style={{marginTop:'30px'}} alt=""/>
+            </div>
         </Slide>
-        <Slide color='#ffd' className='center'>
-        <div style={{position:'absolute',left:'700px'}}>
+        <Slide className='center'>
+            <p>Will this evidence be confirmed with more data?</p>
+        </Slide>
+        <Slide className='center' iFrameSrc='https://fly.otavioalves.com'>
+            <img src="image/qr.svg" height={300} alt=""/>
+            <p style={{position:'relative',top:'-30px',color:'white'}}><b>otavioalves.com</b></p>
+        </Slide>
+        {/* <Slide color='#ffd'>
+            <h2>Summary</h2>
+            <ul style={{display:'block', maxWidth: 650}}>
+                <li>The Universe is expanding under the influence of Dark Energy</li>
+                <li>By building a 3D galaxy map, we can characterize that expansion</li>
+                <li>DESI is measuring spectra of 50M astronomical objects</li>
+                <li>First 3 years of data show strong hints that Dark Energy dynamical</li>
+            </ul>
+        <div style={{position:'absolute',top:'200px',left:'700px'}}>
             <img src="image/qr.svg" height={400} alt=""/>
             <p style={{position:'relative',top:'-100px'}}><b>otavioalves.com</b></p>
         </div>
-        </Slide>
+        </Slide> */}
     </Deck>
 )
