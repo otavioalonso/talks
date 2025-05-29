@@ -258,3 +258,7 @@ div.column{flex: auto; overflow-x: auto;}
       opacity: 1;
   }
 }
+
+.row * {
+  display:inline-block;
+}

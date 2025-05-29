@@ -1,0 +1,19 @@
+.mermaid .grid .tick text {
+    font-size: 16pt;
+    fill: white !important;
+    font-weight: bold;
+}
+
+.mermaid .taskText {
+    font-size: 24pt;
+    font-weight: bold;
+    font-family: "Yanone Kaffeesatz";
+}
+
+.mermaid rect.section {
+    display: none;
+}
+
+.mermaid text.sectionTitle {
+    display: none;
+}

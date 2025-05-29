@@ -151,14 +151,14 @@ export default {
   previewLinks: false,
 
   // Transition style (none/fade/slide/convex/concave/zoom)
-  transition: 'fade',
+  transition: 'none',
 
   // Transition speed (default/fast/slow)
   transitionSpeed: 'default',
 
   // Transition style for full page slide backgrounds
   // (none/fade/slide/convex/concave/zoom)
-  backgroundTransition: 'fade',
+  backgroundTransition: 'none',
 
   // Number of slides away from the current that are visible
   viewDistance: 3,

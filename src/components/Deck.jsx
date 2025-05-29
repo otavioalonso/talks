@@ -26,9 +26,7 @@ export default function Deck({ children }) {
             version: 'latest',
             delimiters: [
             { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: true },
-            { left: '\\(', right: '\\)', display: false },
-            { left: '\\[', right: '\\]', display: false },
+            { left: '$', right: '$', display: false },
             ],
             ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
         },

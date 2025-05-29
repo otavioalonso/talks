@@ -1,9 +1,19 @@
 
 
 import SaturdayMorningPhysicsTalk from './SaturdayMorningPhysicsTalk.jsx'
+import ArizonaTalk from './ArizonaTalk.jsx'
 import { Navigate } from "react-router-dom";
 
 const talks = [
+  {
+    id: 'arizona',
+    title: 'Two probes of Dark Energy',
+    subtitle: 'DES & DESI',
+    description: 'TACOS seminar at University of Arizona',
+    date: '2025-04-23',
+    element: ArizonaTalk,
+    background: 'https://i.pinimg.com/736x/ab/a5/cd/aba5cd6843c2a48a34aff3837a7b8ab9.jpg',
+  },
   {
     id: 'saturday-morning-physics',
     title: 'Saturday Morning Physics',

@@ -9,9 +9,9 @@ export default function Catalog(){
       <h1>My Talks</h1>
       {talks.map((talk) => (
         
- 
- <a key={talk.id} href={`/${talk.id}`} className='talk-link'>
-          <div key={talk.id} className='talk-card'>
+      <div key={talk.id} className='talk-card'>
+        <a key={talk.id} href={`/${talk.id}`} className='talk-link'>
+          
           <div className="header" style={{
             backgroundImage: `url(${talk.background})`,
           }}></div>
@@ -21,8 +21,8 @@ export default function Catalog(){
             <p>{talk.description}</p>
             <p>{new Date(talk.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
           </div>
+          </a>
         </div>
-        </a>
       ))}
     </div>
   );
